@@ -1,34 +1,31 @@
+class Stack<T>: Iterable<T> {
+    private var stack = ArrayList<T>()
+    private var index = -1
 
-
-class Stack(initialSize: Int): Iterator<Any> {
-    private var stackSize = initialSize
-    private var stack = Array<Any>(stackSize) {}
-    private var currentSize = 0
-    private var currentIndex = 0
-
-    fun push(item: Any) {
-        stack[currentSize] = item
-        currentSize++
-        if(currentSize == stackSize) {
-            stackSize *= 2
-            stack = Array(stackSize) { stack }
-        }
-        currentIndex = currentSize-1
+    fun push(item: T) {
+        stack.add(item)
+        index++
     }
 
-    fun pop() : Any {
-        return if (currentSize == 0)
+    fun pop() =
+        if (empty()) {
             error("the stack is empty")
-        else {
-            currentSize--
-            stack[currentSize]
+        } else {
+            val res = stack[index]
+            stack.removeAt(index)
+            index--
+            res
         }
+
+    fun peek() = stack[index]
+
+    fun empty() = index == -1
+
+    override fun iterator() = StackIterator()
+
+    inner class StackIterator: Iterator<T> {
+        var curr = index
+        override fun hasNext() = curr >= 0
+        override fun next() = stack[curr--]
     }
-
-    fun peek() : Any = stack[currentSize-1]
-
-    fun empty() = currentSize == 0
-
-    override fun hasNext() = currentIndex >= 0
-    override fun next() = stack[currentIndex--]
 }
