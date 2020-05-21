@@ -1,28 +1,28 @@
 class Queue<T>: Iterable<T> {
-    val queue = ArrayList<T>()
+    private val queue = ArrayList<T>()
+
     fun enqueue(item: T) {
-
+        queue.add(item)
     }
 
-    fun dequeue():T {
-
-    }
-
-    fun peek():T {
-
-    }
-
-    fun empty() : Boolean {
-
-    }
-    override fun iterator() = QueueIterator<T>()
-    inner class QueueIterator<T> : Iterator<T> {
-        override fun hasNext(): Boolean {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun dequeue() =
+        if(empty()) {
+            error("the queue is empty")
+        } else {
+            val res = queue[0]
+            queue.removeAt(0)
+            res
         }
 
-        override fun next(): T {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
+    fun peek() = queue[0]
+
+    fun empty() = queue.size == 0
+
+    override fun iterator() = QueueIterator()
+
+    inner class QueueIterator: Iterator<T> {
+        var curr = 0
+        override fun hasNext() = curr < queue.size
+        override fun next() = queue[curr++]
     }
 }
