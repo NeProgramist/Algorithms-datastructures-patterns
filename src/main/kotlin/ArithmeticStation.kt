@@ -25,3 +25,13 @@ class ArithmeticStation {
         return operands.pop()
     }
 }
+
+private fun main() {
+    val arithmeticStation = ArithmeticStation()
+
+    val first = arithmeticStation("( ( ( 1 + 2 ) + 3 ) * 3 )")
+    println(first) // 18.0
+
+    val second = arithmeticStation("( ( ( 123 + 2 ) * 0 ) - 3 )")
+    println(second) // -3.0
+}
